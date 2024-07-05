@@ -23,10 +23,7 @@ public class RayCastManager: MonoBehaviour
     void Update()
     {
         RaycastHover();
-
         ShowSelectedCellUI();
-        ShowObstacleManagementUI();
-
     }
 
     //Helper Function to raycast grid cells
@@ -62,11 +59,6 @@ public class RayCastManager: MonoBehaviour
         CellUICanvas.transform.position = selected_cell.transform.position + .65f*Vector3.up;
     }
 
-    //Helper Function to show UI when a particular cell is selected
-    void ShowObstacleManagementUI()
-    {
-
-    }
             
 }
 

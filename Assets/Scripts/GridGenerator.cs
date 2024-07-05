@@ -7,7 +7,9 @@ public class GridGenerator : MonoBehaviour
     public GameObject cellObj;
     public Vector2 CellOffset;
 
-    private void Start()
+    public Cell[,] cells = new Cell[10, 10];
+
+    private void Awake()
     {
         GenerateGrid();
     }
@@ -30,6 +32,7 @@ public class GridGenerator : MonoBehaviour
                 Vector2Int cellIndex = new Vector2Int(i, j);
                 cellInstance.name = cellInstance.name + $"({cellIndex.x},{cellIndex.y})";
                 Cell cellInfo = cellInstance.GetComponent<Cell>();
+                cells[i, j] = cellInfo;
                 if (cellInfo == null)
                 {
                     Debug.LogError("Cell Template is missing Cell Component");
