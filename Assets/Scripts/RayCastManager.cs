@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RayCastManager: MonoBehaviour
 {
-    public Cell selected_cell;
+    public Cell selected_cell { get; private set; }
     public Canvas CellUICanvas;
 
     TMP_Text CellUI_Text;

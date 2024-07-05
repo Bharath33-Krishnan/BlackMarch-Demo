@@ -7,7 +7,7 @@ public class GridGenerator : MonoBehaviour
     public GameObject cellObj;
     public Vector2 CellOffset;
 
-    public Cell[,] cells = new Cell[10, 10];
+    public static Cell[,] cells = new Cell[10, 10];
 
     private void Awake()
     {
@@ -41,5 +41,19 @@ public class GridGenerator : MonoBehaviour
                 cellInfo.setCellIndex(cellIndex);
             }
         }
+    }
+
+    public static bool isTraversible(int i,int j)
+    {
+        return !cells[i,j].IsObstacle;
+    }
+
+    public static Cell getCell(Vector2Int id)
+    {
+        return cells[id.x, id.y];
+    }
+    public static Vector3 getCellPos(Vector2Int id)
+    {
+        return cells[id.x, id.y].transform.position;
     }
 }

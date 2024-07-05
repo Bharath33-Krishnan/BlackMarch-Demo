@@ -10,17 +10,26 @@ public class Cell : MonoBehaviour
     //Basically the red sphere
     public GameObject ObstacleObj;
 
+    private void Start()
+    {
+
+    }
+
     private void Update()
     {
+
+    }
+
+    public void ToggleObstacle(bool obstacle)
+    {
+        IsObstacle = obstacle;
         if (ObstacleObj == null)
             return;
-
         //Set the red sphere as active if the cell is an obstacle
         if (IsObstacle)
             ObstacleObj.SetActive(true);
         else
             ObstacleObj.SetActive(false);
-
     }
 
     public void setCellIndex(Vector2Int index)

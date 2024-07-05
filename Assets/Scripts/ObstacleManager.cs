@@ -18,13 +18,12 @@ public class ObstacleManager : MonoBehaviour
 
     public void GenerateObstacles()
     {
-        GridGenerator generator = GetComponent<GridGenerator>();
         for(int i = 0; i < 10; i++)
         {
             for(int j = 0; j < 10; j++)
             {
-                if(generator.cells[i, j] != null)
-                    generator.cells[i, j].IsObstacle = isBlockedScriptableObject.getBlocked(i, j);
+                if(GridGenerator.cells[i, j] != null)
+                    GridGenerator.cells[i, j].ToggleObstacle(isBlockedScriptableObject.getBlocked(i, j));
             }
         }
     }
