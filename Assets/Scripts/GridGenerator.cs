@@ -12,6 +12,7 @@ public class GridGenerator : MonoBehaviour
     private void Awake()
     {
         GenerateGrid();
+        GetComponent<ObstacleManager>().GenerateObstacles();
     }
 
 

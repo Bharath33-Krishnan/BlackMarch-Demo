@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface AI
+{
+    public void Idle();
+    public void Walk();
+}
+
 [RequireComponent(typeof(Rigidbody))]
-public class Player : NavAgent
+public class Player : NavAgent,AI
 {
     public Vector2Int MyCellPos;
+    public float PlayerSpeed = 20;
     public float PathPrecision = 100;
     public PlayerStates current_state = PlayerStates.Idle;
     public GameObject ObjGfx;
 
+    Animator Obj_Animator;
     Cell current_target;
     RayCastManager rayCastManager;
     Rigidbody rb;
@@ -21,7 +29,7 @@ public class Player : NavAgent
         base.Start();
         if(GridGenerator.getCell(MyCellPos).IsObstacle)
         {
-            Debug.LogError("Enter a Valid Cell Pos for player");
+            Debug.LogError("Enter a Valid Cell Pos for Player");
         }
         CurrentCell = GridGenerator.getCell(MyCellPos);
         transform.position = CurrentCell.transform.position;
@@ -30,6 +38,7 @@ public class Player : NavAgent
             Debug.LogError("Raycast Manager Component is missing");
         rb = GetComponent<Rigidbody>();
         precision = 1 / PathPrecision;
+        Obj_Animator = ObjGfx.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -64,6 +73,8 @@ public class Player : NavAgent
             t = 0;
         }
 
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", false);
     }
 
     public void Walk()
@@ -77,7 +88,7 @@ public class Player : NavAgent
         }
         if ((rb.position - nextCell.transform.position).magnitude> precision)
         {
-            rb.velocity = (nextCell.transform.position - rb.position).normalized;
+            rb.velocity = (nextCell.transform.position - rb.position).normalized * PlayerSpeed*Time.fixedDeltaTime;
         }
         else
         {
@@ -88,13 +99,16 @@ public class Player : NavAgent
 
         Vector3 lookPos = (nextCell.transform.position - transform.position).normalized;
             
-        t += Time.deltaTime;
+        t += Time.deltaTime * PlayerSpeed;
         t = Mathf.Min(t, 1);
 
         if (lookPos == Vector3.zero)
             return;
         Quaternion lookRot = Quaternion.LookRotation(lookPos);
         ObjGfx.transform.rotation = Quaternion.Slerp(ObjGfx.transform.rotation, lookRot, t);
+
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", true);
     }
 }
 public enum PlayerStates

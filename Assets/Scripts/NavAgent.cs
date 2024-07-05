@@ -62,14 +62,14 @@ public class NavAgent : MonoBehaviour
         return nextTargetCell;
     }
 
-    private void setPath(Cell Start, Cell Stop)
+    public void setPath(Cell Start, Cell Stop)
     {
         Vector2Int _startID = Start.CellIndex;
         Vector2Int _stopID = Stop.CellIndex;
         path = getPath(_startID,_stopID);
     }
 
-    private void ResetPath()
+    public void ResetPath()
     {
         for (int i = 0; i < 100 ; i++)
         {

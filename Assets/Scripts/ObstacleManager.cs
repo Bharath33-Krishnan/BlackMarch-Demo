@@ -11,11 +11,7 @@ public class ObstacleManager : MonoBehaviour
     //scriptable object holding values of whether a cell is blocked or not
     public isBlockedArray isBlockedScriptableObject;
 
-    private void Start()
-    {
-        GenerateObstacles();
-    }
-
+    
     public void GenerateObstacles()
     {
         for(int i = 0; i < 10; i++)

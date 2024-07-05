@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Enemy : NavAgent
+public class Enemy : NavAgent,AI
 {
     public Vector2Int MyCellPos;
+    public float EnemySpeed = 10;
     public float PathPrecision = 100;
     public EnemyStates current_state = EnemyStates.Idle;
     public GameObject ObjGfx;
 
+    Animator Obj_Animator;
     Player player;
     Cell current_target;
     Rigidbody rb;
@@ -21,13 +23,18 @@ public class Enemy : NavAgent
         base.Start();
         if(GridGenerator.getCell(MyCellPos).IsObstacle)
         {
-            Debug.LogError("Enter a Valid Cell Pos for player");
+            Debug.LogError("Enter a Valid Cell Pos for Enemy");
             Destroy(gameObject);
         }
         CurrentCell = GridGenerator.getCell(MyCellPos);
         transform.position = CurrentCell.transform.position;
         rb = GetComponent<Rigidbody>();
         precision = 1 / PathPrecision;
+
+        //Not a very efficient method
+        //Idelly I would have used a singleton, or a GameManager but for this demo this is fine
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Obj_Animator = ObjGfx.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -49,21 +56,32 @@ public class Enemy : NavAgent
         rb.velocity = Vector3.zero;
         if (CurrentCell == null)
             return;
+        if (player == null)
+            return;
 
+        if (MoveToPosition(player.CurrentCell) == null)
+            return;
+        current_target = player.CurrentCell;
+        current_state = EnemyStates.Walk;
+        t = 0;
+
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", false);
     }
 
     public void Walk()
     {
+        current_target = player.CurrentCell;
         Cell nextCell = MoveToPosition(current_target);
-        if(nextCell == null)
+        if(nextCell == player.CurrentCell || nextCell == null)
         {
             current_state = EnemyStates.Idle;
             t = 0;
             return;
         }
-        if ((rb.position - nextCell.transform.position).magnitude> precision)
+        if ((rb.position - nextCell.transform.position).magnitude > precision)
         {
-            rb.velocity = (nextCell.transform.position - rb.position).normalized;
+            rb.velocity = (nextCell.transform.position - rb.position).normalized * EnemySpeed * Time.fixedDeltaTime;
         }
         else
         {
@@ -74,13 +92,17 @@ public class Enemy : NavAgent
 
         Vector3 lookPos = (nextCell.transform.position - transform.position).normalized;
             
-        t += Time.deltaTime;
+        t += Time.deltaTime * EnemySpeed;
         t = Mathf.Min(t, 1);
 
         if (lookPos == Vector3.zero)
             return;
         Quaternion lookRot = Quaternion.LookRotation(lookPos);
         ObjGfx.transform.rotation = Quaternion.Slerp(ObjGfx.transform.rotation, lookRot, t);
+
+
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", true);
     }
 }
 public enum EnemyStates
