@@ -56,7 +56,6 @@ public class RayCastManager: MonoBehaviour
             return;
         }
         CellUICanvas.enabled = true;
-        CellUICanvas.transform.position = selected_cell.transform.position + .65f*Vector3.up;
     }
 
             

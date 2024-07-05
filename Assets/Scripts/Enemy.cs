@@ -53,6 +53,8 @@ public class Enemy : NavAgent,AI
 
     public void Idle()
     {
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", false);
         rb.velocity = Vector3.zero;
         if (CurrentCell == null)
             return;
@@ -61,16 +63,20 @@ public class Enemy : NavAgent,AI
 
         if (MoveToPosition(player.CurrentCell) == null)
             return;
+
+
+        if (player.CurrentCell == current_target)
+            return;
         current_target = player.CurrentCell;
         current_state = EnemyStates.Walk;
         t = 0;
-
-        if(Obj_Animator != null)
-            Obj_Animator.SetBool("IsRunning", false);
     }
 
     public void Walk()
     {
+        if(Obj_Animator != null)
+            Obj_Animator.SetBool("IsRunning", true);
+
         current_target = player.CurrentCell;
         Cell nextCell = MoveToPosition(current_target);
         if(nextCell == player.CurrentCell || nextCell == null)
@@ -101,8 +107,6 @@ public class Enemy : NavAgent,AI
         ObjGfx.transform.rotation = Quaternion.Slerp(ObjGfx.transform.rotation, lookRot, t);
 
 
-        if(Obj_Animator != null)
-            Obj_Animator.SetBool("IsRunning", true);
     }
 }
 public enum EnemyStates

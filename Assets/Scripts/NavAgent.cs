@@ -41,13 +41,13 @@ public class NavAgent : MonoBehaviour
         }
         if (TargetCell != Target)
         {
-            setPath(CurrentCell,TargetCell);
-            if (path == null)
-                return null;
-            path.Reverse();
-            currPosInd = 0;
             Target = TargetCell;
         }
+        setPath(CurrentCell,TargetCell);
+        if (path == null)
+            return null;
+        path.Reverse();
+        currPosInd = 0;
         for(int i = 1; i < path.Count; i++)
         {
             Debug.DrawLine(GridGenerator.getCellPos(path[i-1]) + Vector3.up, GridGenerator.getCellPos(path[i]) + Vector3.up,Color.red);

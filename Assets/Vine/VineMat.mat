@@ -55,11 +55,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CycleFactor: 0.085
-    - _CycleFrequency: 69.43
-    - _DistanceFactor: 0.2
+    - _CycleFactor: -0.03
+    - _CycleFrequency: 69.54
+    - _DistanceFactor: 0.3
     - _HeightCulling: 4.7
-    - _HeightFactor: -3.2
+    - _HeightFactor: -4.48
     - _MossFrequency: 1.58
     - _QueueControl: 0
     - _QueueOffset: 0
