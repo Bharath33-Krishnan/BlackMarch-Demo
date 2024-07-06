@@ -114,7 +114,7 @@ public class Player : NavAgent,AI
         }
 
         //If within satisfiable range of target switch to idle or keep on walking
-        if ((rb.position - nextCell.transform.position).magnitude> precision)
+        if ((rb.position - nextCell.transform.position).magnitude > precision)
         {
             rb.velocity = (nextCell.transform.position - rb.position).normalized * PlayerSpeed*Time.fixedDeltaTime;
         }

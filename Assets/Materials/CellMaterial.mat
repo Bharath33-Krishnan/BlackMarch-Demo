@@ -60,5 +60,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _CellBorderColor: {r: 4, g: 0, b: 0.5726929, a: 0}
-    - _CellColor: {r: 0.5849056, g: 0.45782405, b: 0.01655383, a: 0}
+    - _CellColor: {r: 0.7207546, g: 0.5637923, b: 0.009519363, a: 0}
+    - _CellNormalBorderColor: {r: 4, g: 0, b: 0.5726929, a: 0}
+    - _CellSelectedBorderColor: {r: 0, g: 1.688535, b: 4, a: 0}
   m_BuildTextureStacks: []

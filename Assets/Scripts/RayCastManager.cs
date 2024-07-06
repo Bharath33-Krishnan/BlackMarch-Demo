@@ -47,7 +47,7 @@ public class RayCastManager: MonoBehaviour
                     selected_cell.ToggleBorder(true);
                 //Set the UI textstring
                 if(CellUI_Text != null)
-                    CellUI_Text.text = mouseHitCell.getCellIndex().ToString();
+                    CellUI_Text.text = $" {mouseHitCell.getCellIndex().x} , {mouseHitCell.getCellIndex().y} ";
                 return;
             }
         }
