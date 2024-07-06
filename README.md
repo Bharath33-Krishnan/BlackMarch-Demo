@@ -5,7 +5,7 @@ Features Includes:
 - Editor Script to edit the scriptable object and save it
 - Custom Inspector for the editor script
 - Custom path finding implementation
-- a few custom lit shaders 
+- A few custom lit shaders 
 
 # Unity Version
 Project Uses Unity Version 2022.3 LTS\
