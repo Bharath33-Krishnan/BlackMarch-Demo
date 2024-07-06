@@ -9,8 +9,8 @@ Features Includes:
 
 # Unity Version
 Project Uses Unity Version 2022.3 LTS\
-The project uses Universal Render Pipeline
-
+The project uses Universal Render Pipeline\
+Use the Assignment scene in scenes folder
 
 # Known Bugs
 - Rarely enemies might clump up
