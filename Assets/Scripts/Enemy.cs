@@ -6,8 +6,11 @@ using UnityEngine;
 public class Enemy : NavAgent,AI
 {
     public Vector2Int MyCellPos;
+
     public float EnemySpeed = 10;
+    //Higher the speed lower the PathPrecision should be
     public float PathPrecision = 100;
+    
     public EnemyStates current_state = EnemyStates.Idle;
     public GameObject ObjGfx;
 

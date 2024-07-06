@@ -17,8 +17,12 @@ public interface AI
 public class Player : NavAgent,AI
 {
     public Vector2Int MyCellPos;
+
+
     public float PlayerSpeed = 20;
+    //Higher the speed lower the PathPrecision should be
     public float PathPrecision = 100;
+    
     public PlayerStates current_state = PlayerStates.Idle;
     public GameObject ObjGfx;
 
