@@ -9,6 +9,7 @@ public class Vine : MonoBehaviour
     [SerializeField] float GfxEndPos;
     [SerializeField] float vineSpeed = 2;
 
+    //Function to animate the vine growing
     private void Update()
     {
         if(vineGfx.transform.position.y < GfxEndPos)

@@ -33,19 +33,33 @@ public class RayCastManager: MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
+            //Raycast and try to get cell component from the hit
             if (hit.transform.TryGetComponent<Cell>(out Cell mouseHitCell))
             {
+                //Toggles Border Color of older selected cell
+                if(selected_cell!=null)
+                    selected_cell.ToggleBorder(false);
+
                 selected_cell = mouseHitCell;
+
+                //Toggles Border Color of older selected cell
+                if(selected_cell!=null)
+                    selected_cell.ToggleBorder(true);
                 //Set the UI textstring
                 if(CellUI_Text != null)
                     CellUI_Text.text = mouseHitCell.getCellIndex().ToString();
                 return;
             }
         }
+
+        //The code will reach here if not hit object with Cell Component was reached
+        //So toggle the older cell back to normal color and set selected cell as null
+        if (selected_cell != null)
+            selected_cell.ToggleBorder(false);
         selected_cell = null;
     }
 
-    //Helper Function to show UI for selected Cell
+    //Helper Function to show UI for selected Cell if it exists
     void ShowSelectedCellUI()
     {
         if (CellUICanvas == null)

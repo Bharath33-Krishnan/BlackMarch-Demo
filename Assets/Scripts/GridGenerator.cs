@@ -4,21 +4,31 @@ using UnityEngine;
 
 public class GridGenerator : MonoBehaviour
 {
-    public GameObject cellObj;
+    public GameObject NormalcellObj;
+    public GameObject VineSpyrecellObj;
+    public bool replaceBallsWithVines;
+
+    GameObject cellObj;
     public Vector2 CellOffset;
 
     public static Cell[,] cells = new Cell[10, 10];
 
     private void Awake()
     {
+        //Toggle between Obstacle gfx
+        if (replaceBallsWithVines)
+            cellObj = VineSpyrecellObj;
+        else
+            cellObj = NormalcellObj;
         GenerateGrid();
+        //Generate Obstacles once grid is initialized
         GetComponent<ObstacleManager>().GenerateObstacles();
     }
 
 
+    //Helper Function to generate the grid
     void GenerateGrid()
     {
-        //Helper Function to generate the grid
         Vector3 cellSize = cellObj.transform.localScale;
         for(int i = 0; i < 10; i++)
         {
@@ -33,6 +43,7 @@ public class GridGenerator : MonoBehaviour
                 Vector2Int cellIndex = new Vector2Int(i, j);
                 cellInstance.name = cellInstance.name + $"({cellIndex.x},{cellIndex.y})";
                 Cell cellInfo = cellInstance.GetComponent<Cell>();
+                cellInfo.ToggleBorder(false);
                 cells[i, j] = cellInfo;
                 if (cellInfo == null)
                 {
@@ -44,15 +55,18 @@ public class GridGenerator : MonoBehaviour
         }
     }
 
+    //Utility funct to check if cell is traversible
     public static bool isTraversible(int i,int j)
     {
         return !cells[i,j].IsObstacle;
     }
 
+    //Utility funct to get correct cell from an id vec
     public static Cell getCell(Vector2Int id)
     {
         return cells[id.x, id.y];
     }
+    //Utility funct to get correct cell's position from an id vec
     public static Vector3 getCellPos(Vector2Int id)
     {
         return cells[id.x, id.y].transform.position;

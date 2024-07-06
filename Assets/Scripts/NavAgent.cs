@@ -28,7 +28,7 @@ public class NavAgent : MonoBehaviour
         path = new List<Vector2Int>();
     }
 
-    //Returns the next cell to which the agent needs to travel to
+    //Returns the next cell to which the agent needs to travel to eventually reach destination
     public Cell MoveToPosition(Cell TargetCell)
     {
         if (CurrentCell == null || TargetCell == null)
@@ -41,20 +41,26 @@ public class NavAgent : MonoBehaviour
         }
         if (TargetCell != Target)
         {
+            //change Destination if destination got changed
             Target = TargetCell;
         }
         setPath(CurrentCell,TargetCell);
         if (path == null)
             return null;
+
+        //PathList returns path in reverse order so, reverse it
         path.Reverse();
         currPosInd = 0;
         for(int i = 1; i < path.Count; i++)
         {
+            //Draw the path in Scene View
             Debug.DrawLine(GridGenerator.getCellPos(path[i-1]) + Vector3.up, GridGenerator.getCellPos(path[i]) + Vector3.up,Color.red);
         }
         Cell nextTargetCell = GridGenerator.cells[path[currPosInd].x, path[currPosInd].y];
         if(nextTargetCell == CurrentCell)
         {
+            //if already reched target cell
+            //change target cell to next cell in path
             currPosInd++;
             nextTargetCell = GridGenerator.cells[path[currPosInd].x, path[currPosInd].y];
         }
@@ -62,6 +68,7 @@ public class NavAgent : MonoBehaviour
         return nextTargetCell;
     }
 
+    //get start and end cell Index and try to get path
     public void setPath(Cell Start, Cell Stop)
     {
         Vector2Int _startID = Start.CellIndex;
@@ -69,6 +76,7 @@ public class NavAgent : MonoBehaviour
         path = getPath(_startID,_stopID);
     }
 
+    //Reset all path calculations
     public void ResetPath()
     {
         for (int i = 0; i < 100 ; i++)
@@ -77,6 +85,7 @@ public class NavAgent : MonoBehaviour
             fCostMat[i] = int.MaxValue;
         }
     }
+    //return true if cell index vec is present in grid
     bool isPresentinGrid(Vector2Int vec)
     {
         if(vec.x >= 0 && vec.x < 10 && vec.y >= 0 && vec.y < 10)
@@ -87,7 +96,6 @@ public class NavAgent : MonoBehaviour
     }
 
 
-    // Currently doing for one cell component
     private List<Vector2Int> getPath(Vector2Int Start, Vector2Int Stop)
     {
         List<Vector2Int> pathList = new List<Vector2Int>();
@@ -169,15 +177,19 @@ public class NavAgent : MonoBehaviour
             }
         }
 
+        //If final node reached is not stop node
+        //path does not exist
         if (currNode.currentVec != Stop)
             return null;
 
+        //Back Track and add the create path list
         while(currNode.currentVec != Start)
         {
             pathList.Add(currNode.currentVec);
             currNode = currNode.ParentNode;
         }
 
+        //return the path list
         return pathList;
     }
     private class Node:IComparable<Node>
@@ -202,6 +214,11 @@ public class NavAgent : MonoBehaviour
             this.currentVec = currentVec;
             this.ParentNode = ParentNode;
         }
+
+        //compare nodes
+        // f cost highest sort priority
+        // then h cost
+        // g cost is only used to generate f cost
         int IComparable<Node>.CompareTo(Node x)
         {
             if (x.fCost > this.fCost)

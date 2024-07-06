@@ -7,12 +7,14 @@ public class Cell : MonoBehaviour
     public Vector2Int CellIndex;
     public bool IsObstacle { get; set; }
 
+    public GameObject cellGfx;
     //Basically the red sphere
     public GameObject ObstacleObj;
 
+    MeshRenderer myCellMaterial;
+
     private void Start()
     {
-
     }
 
     private void Update()
@@ -40,5 +42,17 @@ public class Cell : MonoBehaviour
     public Vector2Int getCellIndex()
     {
         return CellIndex;
+    }
+
+    //Utility function to toggle border color of cell
+    public void ToggleBorder(bool val)
+    {
+        //This functions depends on the CellMat shader
+        if(!myCellMaterial)
+            myCellMaterial = cellGfx.GetComponent<MeshRenderer>();
+        if (val)
+            myCellMaterial.material.SetInt("_CellBorder", 1);
+        else
+            myCellMaterial.material.SetInt("_CellBorder", 0);
     }
 }

@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44699c2d39f567545831e3e4b030c17c, type: 2}
+  - {fileID: 2100000, guid: 61145dac2cd711f48be061e2e759d205, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CellIndex: {x: 0, y: 0}
+  cellGfx: {fileID: 1610655023131002435}
   ObstacleObj: {fileID: 8935298526756050205}
 --- !u!65 &6434018632752765154
 BoxCollider:

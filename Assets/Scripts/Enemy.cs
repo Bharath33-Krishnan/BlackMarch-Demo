@@ -16,6 +16,8 @@ public class Enemy : NavAgent,AI
     Cell current_target;
     Rigidbody rb;
     float precision;
+
+    //t is used for turning animations in slerp
     float t;
 
     public override void Start()
@@ -39,7 +41,10 @@ public class Enemy : NavAgent,AI
 
     private void FixedUpdate()
     {
+        //by default set whichever current cell enemy is in to true
         CurrentCell.IsObstacle = true;
+        
+        //Enemy State Machine
         switch (current_state)
         {
             case EnemyStates.Idle:
@@ -53,8 +58,10 @@ public class Enemy : NavAgent,AI
 
     public void Idle()
     {
+        //In Idle State always set idle animation
         if(Obj_Animator != null)
             Obj_Animator.SetBool("IsRunning", false);
+
         rb.velocity = Vector3.zero;
         if (CurrentCell == null)
             return;
@@ -64,9 +71,13 @@ public class Enemy : NavAgent,AI
         if (MoveToPosition(player.CurrentCell) == null)
             return;
 
+        //Code reaches here if a valid path is available
 
+        //If Already in target cell just return
         if (player.CurrentCell == current_target)
             return;
+
+        //Set to walk state
         current_target = player.CurrentCell;
         current_state = EnemyStates.Walk;
         t = 0;
@@ -74,9 +85,11 @@ public class Enemy : NavAgent,AI
 
     public void Walk()
     {
+        //In walk State always set idle animation
         if(Obj_Animator != null)
             Obj_Animator.SetBool("IsRunning", true);
 
+        //Always set enemies current target to player cell
         current_target = player.CurrentCell;
         Cell nextCell = MoveToPosition(current_target);
         if(nextCell == player.CurrentCell || nextCell == null)
@@ -85,6 +98,7 @@ public class Enemy : NavAgent,AI
             t = 0;
             return;
         }
+        //If within satisfiable range of target switch to idle or keep on walking
         if ((rb.position - nextCell.transform.position).magnitude > precision)
         {
             rb.velocity = (nextCell.transform.position - rb.position).normalized * EnemySpeed * Time.fixedDeltaTime;
@@ -96,6 +110,7 @@ public class Enemy : NavAgent,AI
             t = 0;
         }
 
+        //Generate look Rotation and face the model in that direction
         Vector3 lookPos = (nextCell.transform.position - transform.position).normalized;
             
         t += Time.deltaTime * EnemySpeed;
