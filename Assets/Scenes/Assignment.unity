@@ -275,6 +275,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6477316697801824693, guid: b39795095c8a3a04ca5f840cc058bed2,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6587622717360390675, guid: b39795095c8a3a04ca5f840cc058bed2,
         type: 3}
       propertyPath: m_Name
@@ -888,7 +893,7 @@ MonoBehaviour:
     type: 3}
   VineSpyrecellObj: {fileID: 7272382390274181720, guid: fb85be280b000ac43beb25c40dcded76,
     type: 3}
-  replaceBallsWithVines: 1
+  replaceBallsWithVines: 0
   CellOffset: {x: 0.1, y: 0.1}
 --- !u!114 &1932568089
 MonoBehaviour:
